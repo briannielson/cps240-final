@@ -45,14 +45,21 @@ public class Main extends Application {
 	    Group root = new Group();
 	    Scene theScene = new Scene( root );
 	    
-	    TitleMenu tm = new TitleMenu(theScene);
-	    theStage.setScene(tm.title); //shows the title screen first
+	    TitleMenu tm = new TitleMenu();
+	    theStage.setScene(tm.titleScene); //shows the title screen first
+	    
 		tm.start.setOnAction(new EventHandler<ActionEvent>() { //creates action for the start button, which starts the game
 			@Override
 			public void handle(ActionEvent event) {
-				tm.check = true;
-				System.out.println(tm.check);
 				theStage.setScene( theScene ); //unfortunately, the zombies position is still changing
+			}
+		});
+		
+		tm.options.setOnAction(new EventHandler<ActionEvent>() { //creates action for the options button, which starts the game
+			@Override
+			public void handle(ActionEvent event) {
+				theStage.setScene( tm.optionScene );
+				System.out.println("Hi");
 			}
 		});
 		
