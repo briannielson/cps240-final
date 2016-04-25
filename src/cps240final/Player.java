@@ -12,7 +12,7 @@ public class Player extends Sprite {
 	private ArrayList<String> input;
 	private String ctrl_up, ctrl_down, ctrl_left, ctrl_right, ctrl_pause, ctrl_shoot_up, ctrl_shoot_down, ctrl_shoot_left, ctrl_shoot_right;
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
-	private int gunCooldown;
+	private int gunCooldown = 0;
 
 	public Player() {
 		setImage(new Image( "/cps240final/sprites/bennyhill.jpg" ));
