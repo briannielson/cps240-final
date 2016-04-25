@@ -8,6 +8,7 @@ public class Sprite {
 	private Image image;
 	protected double positionX;
 	protected double positionY;
+	protected int rotation;
 	private double width;
 	private double height;
 	private boolean dead = false;
