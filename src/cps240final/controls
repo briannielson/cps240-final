@@ -1,0 +1,9 @@
+ctrl_up:W
+ctrl_down:S
+ctrl_left:A
+ctrl_right:D
+ctrl_pause:ESCAPE
+ctrl_shoot_up:UP
+ctrl_shoot_down:DOWN
+ctrl_shoot_left:LEFT
+ctrl_shoot_right:RIGHT

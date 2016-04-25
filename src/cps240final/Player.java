@@ -1,7 +1,11 @@
 package cps240final;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Scanner;
 
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
@@ -10,10 +14,10 @@ import javafx.scene.input.KeyEvent;
 
 public class Player extends Sprite {
 	private ArrayList<String> input;
-	private String ctrl_up, ctrl_down, ctrl_left, ctrl_right, ctrl_pause, ctrl_shoot_up, ctrl_shoot_down,
-			ctrl_shoot_left, ctrl_shoot_right;
+	private HashMap<String, String> controls = new HashMap<String, String>();
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	private int gunCooldown = 0;
+	private int numLives;
 
 	public Player() {
 		setImage(new Image("/cps240final/sprites/bennyhill.jpg"));
@@ -36,7 +40,7 @@ public class Player extends Sprite {
 		Main.currentScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				String code = e.getCode().toString();
-				if (code.equals(ctrl_pause))
+				if (code.equals(controls.get("ctrl_pause")))
 					Main.pauseState = Main.pauseState ? false : true;
 				input.remove(code);
 			}
@@ -52,66 +56,69 @@ public class Player extends Sprite {
 	}
 
 	public void setupInputDefaults() {
-		ctrl_up = "W";
-		ctrl_down = "S";
-		ctrl_left = "A";
-		ctrl_right = "D";
-		ctrl_pause = "ESCAPE";
-		ctrl_shoot_up = "UP";
-		ctrl_shoot_down = "DOWN";
-		ctrl_shoot_left = "LEFT";
-		ctrl_shoot_right = "RIGHT";
+		controls.put("ctrl_up", "W");
+		controls.put("ctrl_down", "S");
+		controls.put("ctrl_left", "A");
+		controls.put("ctrl_right", "D");
+		controls.put("ctrl_pause", "ESCAPE");
+		controls.put("ctrl_shoot_up", "UP");
+		controls.put("ctrl_shoot_down", "DOWN");
+		controls.put("ctrl_shoot_left", "LEFT");
+		controls.put("ctrl_shoot_right", "RIGHT");
 	}
 
 	public void handleInput() {
 		// movement
 		double x = 0, y = 0;
-		if (positionX < Main.windowSizeX - getWidth() && input.contains(ctrl_right))
+		if (positionX < Main.windowSizeX - getWidth() && input.contains(controls.get("ctrl_right")))
 			x += velocity;
-		if (positionX > 0 && input.contains(ctrl_left))
+		if (positionX > 0 && input.contains(controls.get("ctrl_left")))
 			x -= velocity;
-		if (positionY > 0 && input.contains(ctrl_up))
+		if (positionY > 0 && input.contains(controls.get("ctrl_up")))
 			y -= velocity;
-		if (positionY < Main.windowSizeY - getHeight()&& input.contains(ctrl_down))
+		if (positionY < Main.windowSizeY - getHeight() && input.contains(controls.get("ctrl_down")))
 			y += velocity;
 		update(x, y);
 
 		// guns
 		if (gunCooldown == 0) {
-			if (input.contains(ctrl_shoot_left) && input.contains(ctrl_shoot_up)) {
+			if (input.contains(controls.get("ctrl_shoot_left")) && input.contains(controls.get("ctrl_shoot_up"))) {
 				bullets.add(new Bullet(positionX, positionY, 7));
 				gunCooldown = 30;
-			} else if (input.contains(ctrl_shoot_left) && input.contains(ctrl_shoot_down)) {
+			} else if (input.contains(controls.get("ctrl_shoot_left"))
+					&& input.contains(controls.get("ctrl_shoot_down"))) {
 				bullets.add(new Bullet(positionX, positionY, 5));
 				gunCooldown = 30;
 			}
 
-			else if (input.contains(ctrl_shoot_right) && input.contains(ctrl_shoot_up)) {
+			else if (input.contains(controls.get("ctrl_shoot_right"))
+					&& input.contains(controls.get("ctrl_shoot_up"))) {
 				bullets.add(new Bullet(positionX, positionY, 1));
 				gunCooldown = 30;
 			}
 
-			else if (input.contains(ctrl_shoot_right) && input.contains(ctrl_shoot_down)) {
+			else if (input.contains(controls.get("ctrl_shoot_right"))
+					&& input.contains(controls.get("ctrl_shoot_down"))) {
 				bullets.add(new Bullet(positionX, positionY, 3));
 				gunCooldown = 30;
 			}
 
-			else if (input.contains(ctrl_shoot_left)) {
+			else if (input.contains(controls.get("ctrl_shoot_left"))) {
 				bullets.add(new Bullet(positionX, positionY, 6));
 				gunCooldown = 30;
 			}
 
-			else if (input.contains(ctrl_shoot_up)) {
+			else if (input.contains(controls.get("ctrl_shoot_up"))) {
 				bullets.add(new Bullet(positionX, positionY, 0));
 				gunCooldown = 30;
 			}
 
-			else if (input.contains(ctrl_shoot_right)) {
+			else if (input.contains(controls.get("ctrl_shoot_right"))) {
 				bullets.add(new Bullet(positionX, positionY, 2));
 				gunCooldown = 30;
 			}
 
-			else if (input.contains(ctrl_shoot_down)) {
+			else if (input.contains(controls.get("ctrl_shoot_down"))) {
 				bullets.add(new Bullet(positionX, positionY, 4));
 				gunCooldown = 30;
 			}
@@ -127,6 +134,47 @@ public class Player extends Sprite {
 		}
 	}
 
+	public int getNumLives() {
+		return numLives;
+	}
+
+	public void setNumLives(int x) {
+		numLives = x;
+	}
+	
+	public void loadControls() throws IOException {
+		try {
+			File f = new File("src/cps240final/controls");
+			Scanner s = new Scanner(f);
+			String in;
+			String[] keymap = new String[2];
+			
+			while (s.hasNext()) {
+				in = s.nextLine();
+				keymap = in.split(":");
+				setControlSetting(keymap[0], keymap[1]);
+			}
+			
+			s.close();
+		} catch (Exception e) {
+			System.err.println("Control config file either not found, or not formatted correctly.");
+			System.err.println(e);
+		}
+	}
+
+	public String getControlSetting(String s) {
+		if (controls.get(s) != null)
+			return controls.get(s);
+		return "No key named " + s;
+	}
+	
+	public void setControlSetting(String keyname, String keymap) {
+		if (controls.get(keyname) != null)
+			controls.put(keyname, keymap);
+		else
+			System.err.println("No such key named " + keyname);
+	}
+
 	private void updateProjectiles() {
 		if (bullets.size() > 0)
 			for (Iterator<Bullet> iterator = bullets.iterator(); iterator.hasNext();) {
@@ -137,7 +185,7 @@ public class Player extends Sprite {
 						if (mob.intersects(bill)) {
 							mob.setDeath();
 							bill.setDeath();
-							continue;
+							break;
 						}
 				if (bill.offScreen() || bill.getDeath())
 					iterator.remove();

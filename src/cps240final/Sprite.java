@@ -12,6 +12,7 @@ public class Sprite {
 	private double height;
 	private boolean dead = false;
 	protected double velocity;
+	private int health;
 
 	public Sprite() {
 		positionX = 0;
@@ -68,5 +69,13 @@ public class Sprite {
 	
 	public boolean getDeath() {
 		return dead;
+	}
+	
+	public int getHealth() {
+		return health;
+	}
+	
+	public void setHealth(int x) {
+		health = x;
 	}
 }
