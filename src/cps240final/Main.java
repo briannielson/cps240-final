@@ -2,6 +2,8 @@ package cps240final;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -38,12 +40,22 @@ public class Main extends Application {
 	    Group root = new Group();
 	    Scene theScene = new Scene( root );
 	    
-	    theStage.setScene( theScene );
+	    TitleMenu tm = new TitleMenu(theScene);
+	    theStage.setScene(tm.title); //shows the title screen first
+		tm.start.setOnAction(new EventHandler<ActionEvent>() { //creates action for the start button, which starts the game
+			@Override
+			public void handle(ActionEvent event) {
+				tm.check = true;
+				System.out.println(tm.check);
+				theStage.setScene( theScene ); //unfortunately, the zombies position is still changing
+			}
+		});
+		
 	    currentScene = theScene; // currentScene is used across other classes so that we know what to paint to...
 	    
 	    Canvas canvas = new Canvas( windowSizeX, windowSizeY );
 	    root.getChildren().add( canvas );
-	 
+
 	    GraphicsContext gc = canvas.getGraphicsContext2D();
 	    
 	    p1 = new Player();
