@@ -1,5 +1,8 @@
 package cps240final;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -16,6 +19,9 @@ public class Main extends Application {
 	public static double windowSizeY;
 	public static boolean pauseState = false;
 	public static Player p1;
+	public static ArrayList<Enemy> mobs = new ArrayList<Enemy>();
+	
+	private int timer = 0;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -47,7 +53,7 @@ public class Main extends Application {
 	    GraphicsContext gc = canvas.getGraphicsContext2D();
 	    
 	    p1 = new Player();
-	    Enemy zombie = new Enemy(200,200,"zombie");
+	    mobs.add(new Enemy(200,200,"zombie"));
 		
 		new AnimationTimer()
 	    {			
@@ -55,12 +61,26 @@ public class Main extends Application {
 	        {
 	        	gc.clearRect(0, 0, 512,512);
 	        	
-	        	zombie.updatePosition();
-	        	zombie.render(gc);
+	        	if (timer == 0) {
+	        		mobs.add(new Enemy(200,200,"zombie"));
+	        		timer = 120;
+	        	} else timer--;
+	        	
+	        	p1.renderProjectiles(gc); // has to be first in rendering because it modifies other lists
+	        	
+	        	for (Iterator<Enemy> iterator = mobs.iterator(); iterator.hasNext(); ) {
+	        		Enemy e = iterator.next();
+	        		
+	        		if (e.getDeath()) {
+	        			iterator.remove();
+	        			continue;
+	        		}
+	        		e.updatePosition();
+	        		e.render(gc);
+	        	}
 	        	
 	        	p1.handleInput();
 	        	p1.render(gc);
-	        	p1.renderProjectiles(gc);
 	        }
 	    }.start();
 	    

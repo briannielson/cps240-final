@@ -53,7 +53,7 @@ public class Player extends Sprite {
 		ctrl_down 			= "S";
 		ctrl_left 			= "A";
 		ctrl_right 			= "D";
-		ctrl_pause 			= "ESC";
+		ctrl_pause 			= "ESCAPE";
 		ctrl_shoot_up 		= "UP";
 		ctrl_shoot_down		= "DOWN";
 		ctrl_shoot_left		= "LEFT";
@@ -61,8 +61,6 @@ public class Player extends Sprite {
 	}
 	
 	public void handleInput() {
-		if (Main.pauseState)
-			return;
 		// movement
 		double x = 0,y = 0;
 		if (input.contains(ctrl_left))
@@ -132,7 +130,14 @@ public class Player extends Sprite {
 			for (Iterator<Bullet> iterator = bullets.iterator(); iterator.hasNext(); ) {
 				Bullet bill = iterator.next();
 				bill.updatePosition();
-				if (bill.offScreen())
+				if (Main.mobs.size() > 0)
+					for (Enemy mob : Main.mobs)
+						if (mob.intersects(bill)) {
+							mob.setDeath();
+							bill.setDeath();
+							continue;
+						}
+				if (bill.offScreen() || bill.getDeath())
 					iterator.remove();
 			}
 	}
