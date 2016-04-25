@@ -8,16 +8,12 @@ public class Sprite {
 	private Image image;
 	private double positionX;
 	private double positionY;
-	private double velocityX;
-	private double velocityY;
 	private double width;
 	private double height;
 
 	public Sprite() {
 		positionX = 0;
 		positionY = 0;
-		velocityX = 0;
-		velocityY = 0;
 	}
 
 	public void setImage(Image i) {
@@ -36,19 +32,10 @@ public class Sprite {
 		positionY = y;
 	}
 
-	public void setVelocity(double x, double y) {
-		velocityX = x;
-		velocityY = y;
-	}
-
-	public void addVelocity(double x, double y) {
-		velocityX += x;
-		velocityY += y;
-	}
-
-	public void update(double time) {
-		positionX += velocityX * time;
-		positionY += velocityY * time;
+	public void update(double x, double y) {
+		// resulting from input
+		positionX += x;
+		positionY += y;
 	}
 
 	public void render(GraphicsContext gc) {
