@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 
 public class Enemy extends Sprite {
 	private double targetX, targetY;
+
 	public Enemy(double posX, double posY, String enemyType) {
 		positionX = posX;
 		positionY = posY;
@@ -27,6 +28,8 @@ public class Enemy extends Sprite {
 			y = 1;
 		else if (targetY - positionY < 0)
 			y = -1;
+		if (this.intersects(Main.p1))
+			Main.p1.setPosition(0, 0);
 		update(x,y);
 	}
 }

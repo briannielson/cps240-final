@@ -10,6 +10,8 @@ public class Sprite {
 	protected double positionY;
 	private double width;
 	private double height;
+	private boolean dead = false;
+	protected double velocity;
 
 	public Sprite() {
 		positionX = 0;
@@ -33,9 +35,19 @@ public class Sprite {
 	}
 
 	public void update(double x, double y) {
+		if (Main.pauseState)
+			return;
 		// resulting from input
 		positionX += x;
 		positionY += y;
+	}
+	
+	public double getWidth() {
+		return width;
+	}
+	
+	public double getHeight() {
+		return height;
 	}
 
 	public void render(GraphicsContext gc) {
@@ -48,5 +60,13 @@ public class Sprite {
 
 	public boolean intersects(Sprite s) {
 		return s.getBoundary().intersects(this.getBoundary());
+	}
+	
+	public void setDeath() {
+		dead = true;
+	}
+	
+	public boolean getDeath() {
+		return dead;
 	}
 }
