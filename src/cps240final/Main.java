@@ -21,6 +21,7 @@ public class Main extends Application {
 	public static boolean pauseState = false;
 	public static Player p1;
 	public static ArrayList<Enemy> mobs = new ArrayList<Enemy>();
+	public static ArrayList<MapObject> map = new ArrayList<MapObject>();
 	
 	private int timer = 0;
 

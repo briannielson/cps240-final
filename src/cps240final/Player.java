@@ -18,6 +18,7 @@ public class Player extends Sprite {
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	private int gunCooldown = 0;
 	private int numLives;
+	private ArrayList<String> currentEffects = new ArrayList<String>();
 
 	public Player() {
 		setImage(new Image("/cps240final/sprites/bennyhill.jpg"));
@@ -190,5 +191,9 @@ public class Player extends Sprite {
 				if (bill.offScreen() || bill.getDeath())
 					iterator.remove();
 			}
+	}
+
+	public void addBuff(ArrayList<Effects> buffs) {
+		
 	}
 }
