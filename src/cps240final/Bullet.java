@@ -3,13 +3,13 @@ package cps240final;
 import javafx.scene.image.Image;
 
 public class Bullet extends Sprite {
-	private final double velocity = 20;
 	private final double diagScale = .707;
 	private double velocityX, velocityY;
 
 	public Bullet(double startX, double startY, int direction) {
 		setImage(new Image( "/cps240final/sprites/bennyhill.jpg" ));
 		setPosition(startX, startY);
+		velocity = 20;
 		switch (direction) {
 		case 0:
 			setVelocity(0, -velocity);

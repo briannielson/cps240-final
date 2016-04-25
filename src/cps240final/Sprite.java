@@ -11,6 +11,7 @@ public class Sprite {
 	private double width;
 	private double height;
 	private boolean dead = false;
+	protected double velocity;
 
 	public Sprite() {
 		positionX = 0;
@@ -39,6 +40,14 @@ public class Sprite {
 		// resulting from input
 		positionX += x;
 		positionY += y;
+	}
+	
+	public double getWidth() {
+		return width;
+	}
+	
+	public double getHeight() {
+		return height;
 	}
 
 	public void render(GraphicsContext gc) {
