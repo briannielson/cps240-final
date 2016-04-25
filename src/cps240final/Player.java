@@ -12,6 +12,7 @@ public class Player extends Sprite {
 	private ArrayList<String> input;
 	private String ctrl_up, ctrl_down, ctrl_left, ctrl_right, ctrl_pause, ctrl_shoot_up, ctrl_shoot_down, ctrl_shoot_left, ctrl_shoot_right;
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+	private int gunCooldown;
 
 	public Player() {
 		setImage(new Image( "/cps240final/sprites/bennyhill.jpg" ));
@@ -37,6 +38,14 @@ public class Player extends Sprite {
 				input.remove(code);
 			}
 		});
+	}
+	
+	public double getPosX() {
+		return positionX;
+	}
+	
+	public double getPosY() {
+		return positionY;
 	}
 
 	public void setupInputDefaults() {
@@ -67,29 +76,48 @@ public class Player extends Sprite {
         update(x,y);
         
         // guns
-        if (input.contains(ctrl_shoot_left) && input.contains(ctrl_shoot_up))
-        	bullets.add(new Bullet(positionX, positionY, 7));
-       
-        else if (input.contains(ctrl_shoot_left) && input.contains(ctrl_shoot_down))
-        	bullets.add(new Bullet(positionX, positionY, 5));
-       
-        else if (input.contains(ctrl_shoot_right) && input.contains(ctrl_shoot_up))
-        	bullets.add(new Bullet(positionX, positionY, 1));
-       
-        else if (input.contains(ctrl_shoot_right) && input.contains(ctrl_shoot_down))
-        	bullets.add(new Bullet(positionX, positionY, 3));
-       
-        else if (input.contains(ctrl_shoot_left))
-        	bullets.add(new Bullet(positionX, positionY, 6));
-       
-        else if (input.contains(ctrl_shoot_up))
-        	bullets.add(new Bullet(positionX, positionY, 0));
-      
-        else if (input.contains(ctrl_shoot_right))
-        	bullets.add(new Bullet(positionX, positionY, 2));
-       
-        else if (input.contains(ctrl_shoot_down))
-        	bullets.add(new Bullet(positionX, positionY, 4));
+        if (gunCooldown == 0) {
+	        if (input.contains(ctrl_shoot_left) && input.contains(ctrl_shoot_up)) {
+	        	bullets.add(new Bullet(positionX, positionY, 7));
+	        	gunCooldown = 30;
+	        }
+	        else if (input.contains(ctrl_shoot_left) && input.contains(ctrl_shoot_down)) {
+	        	bullets.add(new Bullet(positionX, positionY, 5));
+	        	gunCooldown = 30;
+	        }
+	       
+	        else if (input.contains(ctrl_shoot_right) && input.contains(ctrl_shoot_up)) {
+	        	bullets.add(new Bullet(positionX, positionY, 1));
+	        	gunCooldown = 30;
+	        }
+	       
+	        else if (input.contains(ctrl_shoot_right) && input.contains(ctrl_shoot_down)) {
+	        	bullets.add(new Bullet(positionX, positionY, 3));
+	        	gunCooldown = 30;
+	        }
+	       
+	        else if (input.contains(ctrl_shoot_left)) {
+	        	bullets.add(new Bullet(positionX, positionY, 6));
+	        	gunCooldown = 30;
+	        }
+	       
+	        else if (input.contains(ctrl_shoot_up)) {
+	        	bullets.add(new Bullet(positionX, positionY, 0));
+	        	gunCooldown = 30;
+	        }
+	      
+	        else if (input.contains(ctrl_shoot_right)) {
+	        	bullets.add(new Bullet(positionX, positionY, 2));
+	        	gunCooldown = 30;
+	        }
+	       
+	        else if (input.contains(ctrl_shoot_down)) {
+	        	bullets.add(new Bullet(positionX, positionY, 4));
+	        	gunCooldown = 30;
+	        }
+        } else {
+        	gunCooldown--;
+        }
         updateProjectiles();
 	}
 	

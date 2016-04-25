@@ -15,6 +15,7 @@ public class Main extends Application {
 	public static double windowSizeX;
 	public static double windowSizeY;
 	public static boolean pauseState = false;
+	public static Player p1;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -45,13 +46,17 @@ public class Main extends Application {
 	 
 	    GraphicsContext gc = canvas.getGraphicsContext2D();
 	    
-	    Player p1 = new Player();
+	    p1 = new Player();
+	    Enemy zombie = new Enemy(200,200,"zombie");
 		
 		new AnimationTimer()
 	    {			
 	        public void handle(long currentNanoTime) // main timer for game
 	        {
 	        	gc.clearRect(0, 0, 512,512);
+	        	
+	        	zombie.updatePosition();
+	        	zombie.render(gc);
 	        	
 	        	p1.handleInput();
 	        	p1.render(gc);

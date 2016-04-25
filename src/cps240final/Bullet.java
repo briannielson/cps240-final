@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 
 public class Bullet extends Sprite {
 	private final double velocity = 20;
-	private final double diagScale = 1.4142;
+	private final double diagScale = .707;
 	private double velocityX, velocityY;
 
 	public Bullet(double startX, double startY, int direction) {
