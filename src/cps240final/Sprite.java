@@ -6,8 +6,8 @@ import javafx.scene.image.Image;
 
 public class Sprite {
 	private Image image;
-	private double positionX;
-	private double positionY;
+	protected double positionX;
+	protected double positionY;
 	private double width;
 	private double height;
 

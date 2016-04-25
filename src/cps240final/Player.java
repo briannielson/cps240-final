@@ -1,15 +1,22 @@
 package cps240final;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javafx.event.EventHandler;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 
 public class Player extends Sprite {
 	private ArrayList<String> input;
 	private String ctrl_up, ctrl_down, ctrl_left, ctrl_right, ctrl_pause, ctrl_shoot_up, ctrl_shoot_down, ctrl_shoot_left, ctrl_shoot_right;
+	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
 	public Player() {
+		setImage(new Image( "/cps240final/sprites/bennyhill.jpg" ));
+		setupInputDefaults();
+		
 		// set position to the center
 		input = new ArrayList<String>();
 
@@ -26,6 +33,7 @@ public class Player extends Sprite {
 		Main.currentScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				String code = e.getCode().toString();
+				if (code.equals(ctrl_pause)) Main.pauseState = Main.pauseState ? false : true; 
 				input.remove(code);
 			}
 		});
@@ -43,7 +51,10 @@ public class Player extends Sprite {
 		ctrl_shoot_right 	= "RIGHT";
 	}
 	
-	public void updatePosition() {
+	public void handleInput() {
+		if (Main.pauseState)
+			return;
+		// movement
 		double x = 0,y = 0;
 		if (input.contains(ctrl_left))
         	x -= 2;
@@ -54,5 +65,47 @@ public class Player extends Sprite {
         else if (input.contains(ctrl_down))
         	y += 2;
         update(x,y);
+        
+        // guns
+        if (input.contains(ctrl_shoot_left) && input.contains(ctrl_shoot_up))
+        	bullets.add(new Bullet(positionX, positionY, 7));
+       
+        else if (input.contains(ctrl_shoot_left) && input.contains(ctrl_shoot_down))
+        	bullets.add(new Bullet(positionX, positionY, 5));
+       
+        else if (input.contains(ctrl_shoot_right) && input.contains(ctrl_shoot_up))
+        	bullets.add(new Bullet(positionX, positionY, 1));
+       
+        else if (input.contains(ctrl_shoot_right) && input.contains(ctrl_shoot_down))
+        	bullets.add(new Bullet(positionX, positionY, 3));
+       
+        else if (input.contains(ctrl_shoot_left))
+        	bullets.add(new Bullet(positionX, positionY, 6));
+       
+        else if (input.contains(ctrl_shoot_up))
+        	bullets.add(new Bullet(positionX, positionY, 0));
+      
+        else if (input.contains(ctrl_shoot_right))
+        	bullets.add(new Bullet(positionX, positionY, 2));
+       
+        else if (input.contains(ctrl_shoot_down))
+        	bullets.add(new Bullet(positionX, positionY, 4));
+        updateProjectiles();
+	}
+	
+	public void renderProjectiles(GraphicsContext gc) {
+		for (Bullet bill : bullets) {
+			bill.render(gc);
+		}
+	}
+	
+	private void updateProjectiles() {
+		if (bullets.size() > 0)
+			for (Iterator<Bullet> iterator = bullets.iterator(); iterator.hasNext(); ) {
+				Bullet bill = iterator.next();
+				bill.updatePosition();
+				if (bill.offScreen())
+					iterator.remove();
+			}
 	}
 }
