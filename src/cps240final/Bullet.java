@@ -64,10 +64,6 @@ public class Bullet extends Sprite {
 					break;
 				}
 			}
-		else if (positionX < Main.windowSizeX - getWidth())
-			positionX = Main.windowSizeX - getWidth();
-		else
-			positionX = 0;
 		
 		positionY += y;
 		if (positionY < Main.windowSizeY - getHeight() && positionY > 0)
