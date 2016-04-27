@@ -219,18 +219,15 @@ public class Main extends Application {
 			public void handle(ActionEvent event) {
 				Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 				if (!fs) {
-//			        theStage.setX(primaryScreenBounds.getMinX());
-//			        theStage.setY(primaryScreenBounds.getMinY());
-//			        theStage.setWidth(primaryScreenBounds.getWidth());
-//			        theStage.setHeight(primaryScreenBounds.getHeight());
+			        theStage.setX(primaryScreenBounds.getMinX());
+			        theStage.setY(primaryScreenBounds.getMinY());
+			        theStage.setWidth(primaryScreenBounds.getWidth());
+			        theStage.setHeight(primaryScreenBounds.getHeight());
 			        fs = true;
-			        tm.fullscreen.setText("Smallscreen");
+			        tm.fullscreen.setText("Fullscreen");
 				}
 				else {
-//					theStage.setHeight(theStage.getMinHeight());
-//					theStage.setWidth(theStage.getMinWidth());
-//					theStage.setX(512);
-//					theStage.setY(512);
+					theStage.sizeToScene();
 					fs = false;
 			        tm.fullscreen.setText("Fullscreen");
 					
