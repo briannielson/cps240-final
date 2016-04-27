@@ -7,10 +7,13 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -23,6 +26,7 @@ public class Main extends Application {
 	public static ArrayList<Enemy> mobs = new ArrayList<Enemy>();
 	public static ArrayList<MapObject> map = new ArrayList<MapObject>();
 	private long cycle = 0;
+	public static boolean fs = false;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -127,7 +131,6 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				theStage.setScene( tm.titleScene );
-				System.out.println("Hi");
 			}
 		});
 	    
@@ -183,6 +186,30 @@ public class Main extends Application {
 			}
 		});
 	    
+	    tm.fullscreen.setOnAction(new EventHandler<ActionEvent>() { //creates action for the options button, which starts the game
+			@Override
+			public void handle(ActionEvent event) {
+				Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+				if (!fs) {
+//			        theStage.setX(primaryScreenBounds.getMinX());
+//			        theStage.setY(primaryScreenBounds.getMinY());
+//			        theStage.setWidth(primaryScreenBounds.getWidth());
+//			        theStage.setHeight(primaryScreenBounds.getHeight());
+			        fs = true;
+			        tm.fullscreen.setText("Turn off Fullscreen");
+				}
+				else {
+//					theStage.setHeight(theStage.getMinHeight());
+//					theStage.setWidth(theStage.getMinWidth());
+//					theStage.setX(512);
+//					theStage.setY(512);
+					fs = false;
+			        tm.fullscreen.setText("Turn on Fullscreen");
+					
+				}
+			}
+		});
+	  
 	    theStage.show();
 	}
 }
