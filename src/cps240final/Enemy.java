@@ -28,8 +28,8 @@ public class Enemy extends Sprite {
 			y = 1;
 		else if (targetY - positionY < 0)
 			y = -1;
-		if (this.intersects(Main.p1))
-			Main.p1.setPosition(Main.windowSizeX / 2, Main.windowSizeY / 2);
+		if (this.intersects(Main.p1) && !Main.p1.tickInvincFrames())
+			Main.p1.hit(25);
 		update(x,y);
 	}
 	

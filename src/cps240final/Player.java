@@ -19,12 +19,17 @@ public class Player extends Sprite {
 	private int gunCooldown = 5;
 	private int currentGunCd = 0;
 	private int numLives;
+	private int invincFrames;
 	//private ArrayList<String> currentEffects = new ArrayList<String>();
 
 	public Player() {
 		setImage(new Image("/cps240final/sprites/bennyhill.jpg"));
 		setupInputDefaults();
 		velocity = 2;
+		
+		// Set inital lives and health
+		setHealth(100);
+		numLives = 3;
 
 		// set position to the center
 		input = new ArrayList<String>();
@@ -144,6 +149,13 @@ public class Player extends Sprite {
 		numLives = x;
 	}
 	
+	public boolean tickInvincFrames() {
+		if (invincFrames > 0) {
+			invincFrames--;
+			return true;
+		} return false;
+	}
+	
 	public void loadControls() throws IOException {
 		try {
 			File f = new File("src/cps240final/controls");
@@ -211,6 +223,24 @@ public class Player extends Sprite {
 			positionY = Main.windowSizeY - getHeight();
 		else
 			positionY = 0;
+	}
+	
+	public void hit(int healthLost) {
+		setHealth(getHealth() - healthLost);
+		if (getHealth() <= 0)
+			setDeath();
+		invincFrames += 90;
+	}
+	
+	@Override
+	public void render(GraphicsContext gc) {
+		if (tickInvincFrames() && invincFrames%5 < 2)
+			return;
+		super.render(gc);
+	}
+	
+	public void unDeath() {
+		dead = false;
 	}
 
 	private void updateProjectiles() {
