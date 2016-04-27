@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 
@@ -49,6 +50,7 @@ public class Player extends Sprite {
 				String code = e.getCode().toString();
 				if (code.equals(controls.get("ctrl_pause")))
 					Main.pauseState = Main.pauseState ? false : true;
+				System.out.println("Hi");
 				input.remove(code);
 			}
 		});

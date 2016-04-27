@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -223,7 +224,7 @@ public class Main extends Application {
 //			        theStage.setWidth(primaryScreenBounds.getWidth());
 //			        theStage.setHeight(primaryScreenBounds.getHeight());
 			        fs = true;
-			        tm.fullscreen.setText("Turn off Fullscreen");
+			        tm.fullscreen.setText("Smallscreen");
 				}
 				else {
 //					theStage.setHeight(theStage.getMinHeight());
@@ -231,12 +232,16 @@ public class Main extends Application {
 //					theStage.setX(512);
 //					theStage.setY(512);
 					fs = false;
-			        tm.fullscreen.setText("Turn on Fullscreen");
+			        tm.fullscreen.setText("Fullscreen");
 					
 				}
 			}
 		});
 	  
 	    theStage.show();
+	}
+	
+	public static void test() {
+		
 	}
 }

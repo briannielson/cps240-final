@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 //https://www.videoblocks.com/videos/motion-backgrounds
 
@@ -188,6 +189,8 @@ public class TitleMenu {
 		backButt.setPadding(new Insets(20,20,20,20));
 		backButt.getChildren().addAll(credBack);
 		rootCred.getChildren().add(backButt);
+		
 	}
+
 
 }
