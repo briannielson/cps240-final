@@ -22,8 +22,7 @@ public class Main extends Application {
 	public static Player p1;
 	public static ArrayList<Enemy> mobs = new ArrayList<Enemy>();
 	public static ArrayList<MapObject> map = new ArrayList<MapObject>();
-	
-	private int timer = 0;
+	private long cycle = 0;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -47,11 +46,73 @@ public class Main extends Application {
 	    Scene theScene = new Scene( root );
 	    
 	    TitleMenu tm = new TitleMenu();
+		
+	    currentScene = theScene; // currentScene is used across other classes so that we know what to paint to...
+	    
+	    Canvas canvas = new Canvas( windowSizeX, windowSizeY );
+	    root.getChildren().add( canvas );
+
+	    GraphicsContext gc = canvas.getGraphicsContext2D();
+	    
+	    // Set player object and constants
+	    p1 = new Player();
+	    p1.loadControls();
+	    p1.setPosition(windowSizeX / 2, windowSizeY / 2 );
+	    
+	    // Load in Map (Its a class but its actually just a way to store the map)
+		LevelOne levelOne = new LevelOne();
+	    
+		// naming our class so we can call it later
+		AnimationTimer mainGameLoop = new AnimationTimer()
+	    {
+	        public void handle(long currentNanoTime) // main timer for game
+	        {
+	        	if (currentNanoTime - cycle >= 30) {
+		        	gc.clearRect(0, 0, 512,512);
+		        	
+		        	levelOne.weightedZSpawner();
+		        	
+		        	p1.renderProjectiles(gc); // has to be first in rendering because it modifies other lists
+		        	
+		        	for (Iterator<MapObject> iterator = map.iterator(); iterator.hasNext(); ) {
+		        		MapObject e = iterator.next();
+		        		
+		        		if (e.getDeath()) {
+		        			iterator.remove();
+		        			continue;
+		        		}
+		        		
+		        		e.tick();
+		        		e.render(gc);
+		        	}
+		        	
+		        	for (Iterator<Enemy> iterator = mobs.iterator(); iterator.hasNext(); ) {
+		        		Enemy e = iterator.next();
+		        		
+		        		if (e.getDeath()) {
+		        			iterator.remove();
+		        			continue;
+		        		}
+		        		e.updatePosition();
+		        		e.render(gc);
+		        	}
+		        	
+		        	p1.handleInput();
+		        	p1.render(gc);
+		        	
+		        	cycle = currentNanoTime;
+	        	}
+	        }
+	    };
+	    
+	    // keep event listeners at the bottom so they are context sensitive
+	    
 	    theStage.setScene(tm.titleScene); //shows the title screen first
 	    tm.start.setOnAction(new EventHandler<ActionEvent>() { //creates action for the start button, which starts the game
 			@Override
 			public void handle(ActionEvent event) {
-				theStage.setScene( theScene ); //unfortunately, the zombies position is still changing
+				theStage.setScene( theScene ); 
+				mainGameLoop.start();
 			}
 		});
 	    
@@ -90,45 +151,6 @@ public class Main extends Application {
 				System.out.println("Hi");
 			}
 		});
-		
-	    currentScene = theScene; // currentScene is used across other classes so that we know what to paint to...
-	    
-	    Canvas canvas = new Canvas( windowSizeX, windowSizeY );
-	    root.getChildren().add( canvas );
-
-	    GraphicsContext gc = canvas.getGraphicsContext2D();
-	    
-	    p1 = new Player();
-	    p1.loadControls();
-		
-		new AnimationTimer()
-	    {			
-	        public void handle(long currentNanoTime) // main timer for game
-	        {
-	        	gc.clearRect(0, 0, 512,512);
-	        	
-	        	if (timer == 0) {
-	        		mobs.add(new Enemy(200,200,"zombie"));
-	        		timer = 120;
-	        	} else timer--;
-	        	
-	        	p1.renderProjectiles(gc); // has to be first in rendering because it modifies other lists
-	        	
-	        	for (Iterator<Enemy> iterator = mobs.iterator(); iterator.hasNext(); ) {
-	        		Enemy e = iterator.next();
-	        		
-	        		if (e.getDeath()) {
-	        			iterator.remove();
-	        			continue;
-	        		}
-	        		e.updatePosition();
-	        		e.render(gc);
-	        	}
-	        	
-	        	p1.handleInput();
-	        	p1.render(gc);
-	        }
-	    }.start();
 	    
 	    theStage.show();
 	}

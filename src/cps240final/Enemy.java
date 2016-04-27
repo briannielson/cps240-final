@@ -29,7 +29,61 @@ public class Enemy extends Sprite {
 		else if (targetY - positionY < 0)
 			y = -1;
 		if (this.intersects(Main.p1))
-			Main.p1.setPosition(0, 0);
+			Main.p1.setPosition(Main.windowSizeX / 2, Main.windowSizeY / 2);
 		update(x,y);
+	}
+	
+	@Override
+	public void update(double x, double y) {
+		if (Main.pauseState)
+			return;
+		
+		// check for intersection to outside of window AND for map objects
+		positionX += x;
+		if (positionX < Main.windowSizeX - getWidth() && positionX > 0) {
+			for (MapObject m : Main.map) {
+				if (m.intersects(this)) {
+					// System.out.println("X Intersection found");
+					positionX -= x;
+					break;
+				}
+			} for (Enemy e : Main.mobs) {
+				if (e.intersects(this) && !e.equals(this)) {
+					positionX -= x;
+					// If enemy spawns in another enemy, go ahead and let it move
+					if (e.intersects(this))
+						positionX += x;
+					break;
+				}
+			}
+		}
+		else if (positionX < Main.windowSizeX - getWidth())
+			positionX = 0;
+		else
+			positionX = Main.windowSizeX - getWidth();
+		
+		positionY += y;
+		if (positionY < Main.windowSizeY - getHeight() && positionY > 0) {
+			for (MapObject m : Main.map) {
+				// System.out.println(Main.map.indexOf(m));
+				if (m.intersects(this)) {
+					// System.out.println("Y Intersection found");
+					positionY -= y;
+					break;
+				}
+			} for (Enemy e : Main.mobs) {
+				if (e.intersects(this) && !e.equals(this)) {
+					positionY -= y;
+					// If enemy spawns in another enemy, go ahead and let it move
+					if (e.intersects(this))
+						positionY += y;
+					break;
+				}
+			}
+		}
+		else if (positionY < Main.windowSizeY - getHeight())
+			positionY = 0;
+		else
+			positionY = Main.windowSizeY - getHeight();
 	}
 }

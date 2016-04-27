@@ -16,9 +16,10 @@ public class Player extends Sprite {
 	private ArrayList<String> input;
 	private HashMap<String, String> controls = new HashMap<String, String>();
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
-	private int gunCooldown = 0;
+	private int gunCooldown = 5;
+	private int currentGunCd = 0;
 	private int numLives;
-	private ArrayList<String> currentEffects = new ArrayList<String>();
+	//private ArrayList<String> currentEffects = new ArrayList<String>();
 
 	public Player() {
 		setImage(new Image("/cps240final/sprites/bennyhill.jpg"));
@@ -71,60 +72,60 @@ public class Player extends Sprite {
 	public void handleInput() {
 		// movement
 		double x = 0, y = 0;
-		if (positionX < Main.windowSizeX - getWidth() && input.contains(controls.get("ctrl_right")))
+		if (input.contains(controls.get("ctrl_right")))
 			x += velocity;
-		if (positionX > 0 && input.contains(controls.get("ctrl_left")))
+		if (input.contains(controls.get("ctrl_left")))
 			x -= velocity;
-		if (positionY > 0 && input.contains(controls.get("ctrl_up")))
+		if (input.contains(controls.get("ctrl_up")))
 			y -= velocity;
-		if (positionY < Main.windowSizeY - getHeight() && input.contains(controls.get("ctrl_down")))
+		if (input.contains(controls.get("ctrl_down")))
 			y += velocity;
 		update(x, y);
 
 		// guns
-		if (gunCooldown == 0) {
+		if (currentGunCd == 0) {
 			if (input.contains(controls.get("ctrl_shoot_left")) && input.contains(controls.get("ctrl_shoot_up"))) {
 				bullets.add(new Bullet(positionX, positionY, 7));
-				gunCooldown = 30;
+				currentGunCd = gunCooldown;
 			} else if (input.contains(controls.get("ctrl_shoot_left"))
 					&& input.contains(controls.get("ctrl_shoot_down"))) {
 				bullets.add(new Bullet(positionX, positionY, 5));
-				gunCooldown = 30;
+				currentGunCd = gunCooldown;
 			}
 
 			else if (input.contains(controls.get("ctrl_shoot_right"))
 					&& input.contains(controls.get("ctrl_shoot_up"))) {
 				bullets.add(new Bullet(positionX, positionY, 1));
-				gunCooldown = 30;
+				currentGunCd = gunCooldown;
 			}
 
 			else if (input.contains(controls.get("ctrl_shoot_right"))
 					&& input.contains(controls.get("ctrl_shoot_down"))) {
 				bullets.add(new Bullet(positionX, positionY, 3));
-				gunCooldown = 30;
+				currentGunCd = gunCooldown;
 			}
 
 			else if (input.contains(controls.get("ctrl_shoot_left"))) {
 				bullets.add(new Bullet(positionX, positionY, 6));
-				gunCooldown = 30;
+				currentGunCd = gunCooldown;
 			}
 
 			else if (input.contains(controls.get("ctrl_shoot_up"))) {
 				bullets.add(new Bullet(positionX, positionY, 0));
-				gunCooldown = 30;
+				currentGunCd = gunCooldown;
 			}
 
 			else if (input.contains(controls.get("ctrl_shoot_right"))) {
 				bullets.add(new Bullet(positionX, positionY, 2));
-				gunCooldown = 30;
+				currentGunCd = gunCooldown;
 			}
 
 			else if (input.contains(controls.get("ctrl_shoot_down"))) {
 				bullets.add(new Bullet(positionX, positionY, 4));
-				gunCooldown = 30;
+				currentGunCd = gunCooldown;
 			}
 		} else {
-			gunCooldown--;
+			currentGunCd--;
 		}
 		updateProjectiles();
 	}
@@ -174,6 +175,42 @@ public class Player extends Sprite {
 			controls.put(keyname, keymap);
 		else
 			System.err.println("No such key named " + keyname);
+	}
+	
+	@Override
+	public void update(double x, double y) {
+		if (Main.pauseState)
+			return;
+		
+		// check for intersection to outside of window AND for map objects
+		positionX += x;
+		if (positionX < Main.windowSizeX - getWidth() && positionX > 0)
+			for (MapObject m : Main.map) {
+				if (m.intersects(this)) {
+					// System.out.println("X Intersection found");
+					positionX -= x;
+					break;
+				}
+			}
+		else if (positionX < Main.windowSizeX - getWidth())
+			positionX = 0;
+		else
+			positionX = Main.windowSizeX - getWidth();
+		
+		positionY += y;
+		if (positionY < Main.windowSizeY - getHeight() && positionY > 0)
+			for (MapObject m : Main.map) {
+				// System.out.println(Main.map.indexOf(m));
+				if (m.intersects(this)) {
+					// System.out.println("Y Intersection found");
+					positionY -= y;
+					break;
+				}
+			}
+		else if (positionY < Main.windowSizeY - getHeight())
+			positionY = 0;
+		else
+			positionY = Main.windowSizeY - getHeight();
 	}
 
 	private void updateProjectiles() {

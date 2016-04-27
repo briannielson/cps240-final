@@ -9,7 +9,7 @@ public class Bullet extends Sprite {
 	public Bullet(double startX, double startY, int direction) {
 		setImage(new Image( "/cps240final/sprites/bennyhill.jpg" ));
 		setPosition(startX, startY);
-		velocity = 20;
+		velocity = 40;
 		switch (direction) {
 		case 0:
 			setVelocity(0, -velocity);

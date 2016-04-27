@@ -3,7 +3,6 @@ package cps240final;
 import java.util.ArrayList;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class MapObject extends Sprite {
@@ -14,47 +13,70 @@ public class MapObject extends Sprite {
 	private Double[] points = new Double[4];
 	private boolean expire;
 	private int lifeTimer;
-	
-	public MapObject (String i, double x1, double y1, double x2, double y2, boolean obs, 
-			ArrayList<Effects> b, boolean use, boolean expiring, int timer) {
-		setImage(new Image(i));
+	private boolean isShape;
+
+	public MapObject(double x1, double y1, boolean obs, ArrayList<Effects> b, boolean use, boolean expiring,
+			int timer, boolean shape) {
 		positionX = x1;
 		positionY = y1;
-		points[0] = x1;
-		points[1] = y1;
-		points[2] = x2;
-		points[3] = y2;
 		obstacle = obs;
 		buffs = b;
 		useable = use;
 		expire = expiring;
 		lifeTimer = timer;
+		isShape = shape;
 	}
-	
+
+	public void setShapeAttr(double x1, double y1, double x2, double y2, Color c) {
+		positionX = x1;
+		positionY = y1;
+		points[0] = x1;
+		points[1] = y1;
+		points[2] = x2 - x1;
+		points[3] = y2 - y1;
+		fillColor = c;
+		setWidthHeight(x2 - x1, y2 - y1);
+		// System.out.println(x2 + " " + x1 + ", " + y2  + " " + y1);
+	}
+
 	public boolean getExpiring() {
 		return expire;
 	}
-	
+
 	public void tick() {
 		if (lifeTimer > 0)
 			lifeTimer--;
-		else
+		else if (expire)
 			setDeath();
 	}
-	
+
 	@Override
 	public void render(GraphicsContext gc) {
+		if (isShape)
+			renderShape(gc);
+		else
+			super.render(gc);
+	}
+
+	public void renderShape(GraphicsContext gc) {
 		gc.setFill(fillColor);
 		gc.fillRect(points[0], points[1], points[2], points[3]);
 	}
-	
+
 	@Override
+	// This is returning true if the object checking shouldn't be going through the obstacle
 	public boolean intersects(Sprite s) {
-		if (obstacle)
-			return s.getBoundary().intersects(this.getBoundary());
-		Main.p1.addBuff(buffs);
-		if (useable)
-			setDeath();
+		// System.out.println(super.getBoundary());
+		if (getBoundary().intersects(s.getBoundary())) {
+			if (!buffs.isEmpty())
+				Main.p1.addBuff(buffs);
+			if (useable)
+				setDeath();
+			if (obstacle) {
+				// System.out.println("Obstacle is being hit!");
+				return true;
+			}
+		}
 		return false;
 	}
 }

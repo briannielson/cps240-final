@@ -39,13 +39,18 @@ public class Sprite {
 	public void update(double x, double y) {
 		if (Main.pauseState)
 			return;
-		// resulting from input
 		positionX += x;
 		positionY += y;
 	}
 	
 	public double getWidth() {
 		return width;
+	}
+	
+	public void setWidthHeight(double x, double y) {
+		// System.out.println(x + " " + y);
+		width = x;
+		height = y;
 	}
 	
 	public double getHeight() {
