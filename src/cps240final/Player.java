@@ -218,6 +218,10 @@ public class Player extends Sprite {
 			for (Iterator<Bullet> iterator = bullets.iterator(); iterator.hasNext();) {
 				Bullet bill = iterator.next();
 				bill.updatePosition();
+				if (bill.offScreen() || bill.getDeath()) {
+					iterator.remove();
+					continue;
+				}
 				if (Main.mobs.size() > 0)
 					for (Enemy mob : Main.mobs)
 						if (mob.intersects(bill)) {
@@ -225,8 +229,6 @@ public class Player extends Sprite {
 							bill.setDeath();
 							break;
 						}
-				if (bill.offScreen() || bill.getDeath())
-					iterator.remove();
 			}
 	}
 

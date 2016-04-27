@@ -72,7 +72,9 @@ public class Main extends Application {
 		        	
 		        	levelOne.weightedZSpawner();
 		        	
+		        	p1.handleInput();
 		        	p1.renderProjectiles(gc); // has to be first in rendering because it modifies other lists
+		        	p1.render(gc);
 		        	
 		        	for (Iterator<MapObject> iterator = map.iterator(); iterator.hasNext(); ) {
 		        		MapObject e = iterator.next();
@@ -96,9 +98,6 @@ public class Main extends Application {
 		        		e.updatePosition();
 		        		e.render(gc);
 		        	}
-		        	
-		        	p1.handleInput();
-		        	p1.render(gc);
 		        	
 		        	cycle = currentNanoTime;
 	        	}

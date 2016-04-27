@@ -33,7 +33,21 @@ public class LevelOne {
 		
 		// Walls -- inner
 		map.add( new MapObject(0, 0, true, wallEffects, false, false, 0, true) );
-		map.get(map.size() - 1).setShapeAttr(300, 400, 310, 475, Color.BLACK);
+		map.get(map.size() - 1).setShapeAttr(110, 110, 160, 120, Color.BLACK);
+		map.add( new MapObject(0, 0, true, wallEffects, false, false, 0, true) );
+		map.get(map.size() - 1).setShapeAttr(352, 110, 402, 120, Color.BLACK);
+		map.add( new MapObject(0, 0, true, wallEffects, false, false, 0, true) );
+		map.get(map.size() - 1).setShapeAttr(392, 110, 402, 160, Color.BLACK);
+		map.add( new MapObject(0, 0, true, wallEffects, false, false, 0, true) );
+		map.get(map.size() - 1).setShapeAttr(392, 352, 402, 402, Color.BLACK);
+		map.add( new MapObject(0, 0, true, wallEffects, false, false, 0, true) );
+		map.get(map.size() - 1).setShapeAttr(352, 392, 402, 402, Color.BLACK);
+		map.add( new MapObject(0, 0, true, wallEffects, false, false, 0, true) );
+		map.get(map.size() - 1).setShapeAttr(110, 392, 160, 402, Color.BLACK);
+		map.add( new MapObject(0, 0, true, wallEffects, false, false, 0, true) );
+		map.get(map.size() - 1).setShapeAttr(110, 352, 120, 402, Color.BLACK);
+		map.add( new MapObject(0, 0, true, wallEffects, false, false, 0, true) );
+		map.get(map.size() - 1).setShapeAttr(110, 110, 120, 160, Color.BLACK);
 		
 		
 		// Initialize Level
@@ -64,7 +78,13 @@ public class LevelOne {
 			i = randoCalrisian.nextInt(4);
 			x = zSpawnPoints.get(i)[0];
 			y = zSpawnPoints.get(i)[1];
-			Main.mobs.add(new Enemy(x,y,"zombie"));
+			Enemy newE = new Enemy(x,y,"zombie");
+			for (Enemy e : Main.mobs) {
+				if (e.intersects(newE)) {
+					return;
+				}
+			}
+			Main.mobs.add(newE);
 		}
 	}
 }
