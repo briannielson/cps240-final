@@ -1,5 +1,6 @@
 package cps240final;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -76,6 +77,20 @@ public class Main extends Application {
 		        	
 		        	levelOne.weightedZSpawner();
 		        	
+		        	if (p1.getDeath() && p1.getNumLives() < 0) {
+		        		this.stop();
+		        		mobs.clear();
+		        		map.clear();
+		        		theStage.setScene(tm.titleScene);
+		        	} else if (p1.getDeath()) {
+		        		mobs.clear();
+		        		map.clear();
+		        		new LevelOne();
+		        		p1.setHealth(100);
+		        		p1.setNumLives(p1.getNumLives() - 1);
+		        		p1.unDeath();
+		        	}
+		        	
 		        	p1.handleInput();
 		        	p1.renderProjectiles(gc); // has to be first in rendering because it modifies other lists
 		        	p1.render(gc);
@@ -114,7 +129,19 @@ public class Main extends Application {
 	    tm.start.setOnAction(new EventHandler<ActionEvent>() { //creates action for the start button, which starts the game
 			@Override
 			public void handle(ActionEvent event) {
-				theStage.setScene( theScene ); 
+				theStage.setScene( theScene );
+				// Set player object and constants
+			    p1 = new Player();
+			    try {
+			    	p1.loadControls();
+			    } catch (IOException e) {
+			    	System.out.println("Couldn't find controls file!");
+			    }
+			    p1.setPosition(windowSizeX / 2, windowSizeY / 2 );
+			    
+			    // Load in Map (Its a class but its actually just a way to store the map)
+				new LevelOne();
+				
 				mainGameLoop.start();
 			}
 		});

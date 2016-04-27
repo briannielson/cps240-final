@@ -11,7 +11,7 @@ abstract class Sprite {
 	protected int rotation;
 	private double width;
 	private double height;
-	private boolean dead = false;
+	protected boolean dead = false;
 	protected double velocity;
 	private int health;
 
