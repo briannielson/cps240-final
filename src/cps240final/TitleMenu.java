@@ -14,7 +14,7 @@ import javafx.scene.text.TextAlignment;
 //https://www.videoblocks.com/videos/motion-backgrounds
 
 public class TitleMenu {
-	public Scene titleScene, optionScene, controlScene, holdScene;
+	public Scene titleScene, optionScene, controlScene, audScene, credScene;
 	public Button start = new Button("Start Game");
 	public Button options = new Button("Options");
 	public Button credits = new Button("Credits");
@@ -22,7 +22,10 @@ public class TitleMenu {
 	public Button controls = new Button("Controls");
 	public Button audio = new Button("Audio");
 	public Button fullscreen = new Button("Fullscreen");
-	public Button back = new Button("Back");
+	public Button conBack = new Button("Back");
+	public Button optBack = new Button("Back");
+	public Button audBack = new Button("Back");
+	public Button credBack = new Button("Back");
 	
 	public TitleMenu() {
 		//Title Menu scene starts here
@@ -51,13 +54,17 @@ public class TitleMenu {
 		controls.setMaxWidth(Double.MAX_VALUE);
 		audio.setMaxWidth(Double.MAX_VALUE);
 		fullscreen.setMaxWidth(Double.MAX_VALUE);
+//		credBack.setMaxWidth(Double.MAX_VALUE);
+//		audBack.setMaxWidth(Double.MAX_VALUE);
+//		optBack.setMaxWidth(Double.MAX_VALUE);
+//		conBack.setMaxWidth(Double.MAX_VALUE);
 		
 		VBox butts = new VBox();
 		butts.setSpacing(10);
 		butts.setPadding(new Insets(0,20,10,20));
 		butts.getChildren().addAll(start, options, credits);
 		rootT.getChildren().add(butts);
-		butts.setLayoutY(200);
+		butts.setLayoutY(130);
 		butts.setLayoutX(200);
 		//butts.setAlignment(Pos.CENTER);
 		//Title Menu Scene Stops here
@@ -83,10 +90,16 @@ public class TitleMenu {
 		VBox optButts = new VBox();
 		optButts.setSpacing(10);
 		optButts.setPadding(new Insets(0,20,10,20));
-		optButts.getChildren().addAll(back, controls, audio, fullscreen);
+		optButts.getChildren().addAll(controls, audio, fullscreen);
 		rootO.getChildren().add(optButts);
-		optButts.setLayoutY(200);
+		optButts.setLayoutY(130);
 		optButts.setLayoutX(200);
+		
+		VBox backButt = new VBox();
+		backButt.setSpacing(10);
+		backButt.setPadding(new Insets(20,20,20,20));
+		backButt.getChildren().addAll(optBack);
+		rootO.getChildren().add(backButt);
 	}
 	
 	public void conMethod() {
@@ -109,10 +122,72 @@ public class TitleMenu {
 		VBox conButts = new VBox();
 		conButts.setSpacing(10);
 		conButts.setPadding(new Insets(0,20,10,20));
-		conButts.getChildren().addAll(back);
-		rootCon.getChildren().add(conButts);
-		conButts.setLayoutY(200);
+		conButts.getChildren().addAll(conBack);
+//		rootCon.getChildren().add(conButts);
+		conButts.setLayoutY(130);
 		conButts.setLayoutX(200);
+		
+		VBox backButt = new VBox();
+		backButt.setSpacing(10);
+		backButt.setPadding(new Insets(20,20,20,20));
+		backButt.getChildren().addAll(conBack);
+		rootCon.getChildren().add(backButt);
+	}
+	
+	public void audMethod() {
+		Group rootAud = new Group();
+		audScene = new Scene(rootAud);
+		Canvas canvasAud = new Canvas(512,512);
+		rootAud.getChildren().add(canvasAud);
+		
+		GraphicsContext gcAud = canvasAud.getGraphicsContext2D();
+		gcAud.setTextAlign(TextAlignment.CENTER);
+		gcAud.setTextBaseline(VPos.CENTER);
+		gcAud.setFill(Color.RED);
+		gcAud.setStroke(Color.BLACK);
+		gcAud.setLineWidth(2);
+		Font theFontAud = Font.font("CHILLER", FontWeight.BOLD, 48);
+		gcAud.setFont(theFontAud);
+		gcAud.fillText("AUDIO", Math.round(canvasAud.getWidth()  / 2), Math.round(canvasAud.getHeight() / 6));
+		gcAud.strokeText("AUDIO", Math.round(canvasAud.getWidth()  / 2), Math.round(canvasAud.getHeight() / 6));
+		//options = new Button("Back");
+		VBox audButts = new VBox();
+		audButts.setSpacing(10);
+		audButts.setPadding(new Insets(0,20,10,20));
+//		audButts.getChildren().addAll(audBack);
+		rootAud.getChildren().add(audButts);
+		audButts.setLayoutY(130);
+		audButts.setLayoutX(200);
+		
+		VBox backButt = new VBox();
+		backButt.setSpacing(10);
+		backButt.setPadding(new Insets(20,20,20,20));
+		backButt.getChildren().addAll(audBack);
+		rootAud.getChildren().add(backButt);
+	}
+	
+	public void credMethod() {
+		Group rootCred = new Group();
+		credScene = new Scene(rootCred);
+		Canvas canvasCred = new Canvas(512,512);
+		rootCred.getChildren().add(canvasCred);
+		
+		GraphicsContext gcCred = canvasCred.getGraphicsContext2D();
+		gcCred.setTextAlign(TextAlignment.CENTER);
+		gcCred.setTextBaseline(VPos.CENTER);
+		gcCred.setFill(Color.RED);
+		gcCred.setStroke(Color.BLACK);
+		gcCred.setLineWidth(2);
+		Font theFontCred = Font.font("CHILLER", FontWeight.BOLD, 48);
+		gcCred.setFont(theFontCred);
+		gcCred.fillText("CREDITS", Math.round(canvasCred.getWidth()  / 2), Math.round(canvasCred.getHeight() / 6));
+		gcCred.strokeText("CREDITS", Math.round(canvasCred.getWidth()  / 2), Math.round(canvasCred.getHeight() / 6));
+		//options = new Button("Back");
+		VBox backButt = new VBox();
+		backButt.setSpacing(10);
+		backButt.setPadding(new Insets(20,20,20,20));
+		backButt.getChildren().addAll(credBack);
+		rootCred.getChildren().add(backButt);
 	}
 
 }
