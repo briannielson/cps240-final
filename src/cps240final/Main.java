@@ -119,9 +119,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				tm.optMethod();
-				tm.holdScene = tm.titleScene;
 				theStage.setScene( tm.optionScene );
-				System.out.println("Hi");
 			}
 		});
 	    
@@ -136,18 +134,52 @@ public class Main extends Application {
 	    tm.controls.setOnAction(new EventHandler<ActionEvent>() { //creates action for the options button, which starts the game
 			@Override
 			public void handle(ActionEvent event) {
-				tm.holdScene = tm.optionScene;
 				tm.conMethod();
 				theStage.setScene( tm.controlScene );
-				System.out.println("Hi");
 			}
 		});
 	    
-	    tm.back.setOnAction(new EventHandler<ActionEvent>() { //creates action for the options button, which starts the game
+	    tm.audio.setOnAction(new EventHandler<ActionEvent>() { //creates action for the options button, which starts the game
 			@Override
 			public void handle(ActionEvent event) {
-				theStage.setScene( tm.holdScene );
-				System.out.println("Hi");
+				tm.audMethod();
+				theStage.setScene( tm.audScene );
+			}
+		});
+	    
+	    tm.credits.setOnAction(new EventHandler<ActionEvent>() { //creates action for the options button, which starts the game
+			@Override
+			public void handle(ActionEvent event) {
+				tm.credMethod();
+				theStage.setScene( tm.credScene );
+			}
+		});
+	    
+	    tm.audBack.setOnAction(new EventHandler<ActionEvent>() { //creates action for the options button, which starts the game
+			@Override
+			public void handle(ActionEvent event) {
+				theStage.setScene( tm.optionScene );
+			}
+		});
+	    
+	    tm.conBack.setOnAction(new EventHandler<ActionEvent>() { //creates action for the options button, which starts the game
+			@Override
+			public void handle(ActionEvent event) {
+				theStage.setScene( tm.optionScene );
+			}
+		});
+	    
+	    tm.credBack.setOnAction(new EventHandler<ActionEvent>() { //creates action for the options button, which starts the game
+			@Override
+			public void handle(ActionEvent event) {
+				theStage.setScene( tm.titleScene );
+			}
+		});
+	    
+	    tm.optBack.setOnAction(new EventHandler<ActionEvent>() { //creates action for the options button, which starts the game
+			@Override
+			public void handle(ActionEvent event) {
+				theStage.setScene( tm.titleScene );
 			}
 		});
 	    
