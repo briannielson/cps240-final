@@ -9,7 +9,7 @@ public class Bullet extends Sprite {
 	public Bullet(double startX, double startY, int direction) {
 		setImage(new Image( "/cps240final/sprites/bennyhill.jpg" ));
 		setPosition(startX, startY);
-		velocity = 40;
+		velocity = 20;
 		switch (direction) {
 		case 0:
 			setVelocity(0, -velocity);
@@ -51,5 +51,33 @@ public class Bullet extends Sprite {
 		if (positionX > 0 && positionX < Main.windowSizeX && positionY > 0 && positionY < Main.windowSizeY)
 			return false;
 		return true;
+	}
+
+	@Override
+	public void update(double x, double y) {
+		positionX += x;
+		if (positionX < Main.windowSizeX - getWidth() && positionX > 0)
+			for (MapObject m : Main.map) {
+				if (m.intersects(this)) {
+					// System.out.println("X Intersection found");
+					setDeath();
+					break;
+				}
+			}
+		else if (positionX < Main.windowSizeX - getWidth())
+			positionX = Main.windowSizeX - getWidth();
+		else
+			positionX = 0;
+		
+		positionY += y;
+		if (positionY < Main.windowSizeY - getHeight() && positionY > 0)
+			for (MapObject m : Main.map) {
+				// System.out.println(Main.map.indexOf(m));
+				if (m.intersects(this)) {
+					// System.out.println("Y Intersection found");
+					setDeath();
+					break;
+				}
+			}
 	}
 }

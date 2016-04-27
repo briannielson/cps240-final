@@ -4,7 +4,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Sprite {
+abstract class Sprite {
 	private Image image;
 	protected double positionX;
 	protected double positionY;
@@ -36,12 +36,7 @@ public class Sprite {
 		positionY = y;
 	}
 
-	public void update(double x, double y) {
-		if (Main.pauseState)
-			return;
-		positionX += x;
-		positionY += y;
-	}
+	abstract void update(double x, double y);
 	
 	public double getWidth() {
 		return width;

@@ -193,9 +193,9 @@ public class Player extends Sprite {
 				}
 			}
 		else if (positionX < Main.windowSizeX - getWidth())
-			positionX = 0;
-		else
 			positionX = Main.windowSizeX - getWidth();
+		else
+			positionX = 0;
 		
 		positionY += y;
 		if (positionY < Main.windowSizeY - getHeight() && positionY > 0)
@@ -208,9 +208,9 @@ public class Player extends Sprite {
 				}
 			}
 		else if (positionY < Main.windowSizeY - getHeight())
-			positionY = 0;
-		else
 			positionY = Main.windowSizeY - getHeight();
+		else
+			positionY = 0;
 	}
 
 	private void updateProjectiles() {

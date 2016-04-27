@@ -79,4 +79,10 @@ public class MapObject extends Sprite {
 		}
 		return false;
 	}
+
+	@Override
+	void update(double x, double y) {
+		// TODO Auto-generated method stub
+		
+	}
 }

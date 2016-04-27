@@ -67,7 +67,7 @@ public class Main extends Application {
 	    {
 	        public void handle(long currentNanoTime) // main timer for game
 	        {
-	        	if (currentNanoTime - cycle >= 30) {
+	        	if (currentNanoTime - cycle >= 3000) {
 		        	gc.clearRect(0, 0, 512,512);
 		        	
 		        	levelOne.weightedZSpawner();
