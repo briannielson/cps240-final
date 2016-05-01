@@ -45,8 +45,6 @@ public class TitleMenu {
 		gcT.setFont(theFont);
 		gcT.fillText("ROCK N' ROLLFARE", Math.round(canvasT.getWidth()  / 2), Math.round(canvasT.getHeight() / 6));
 		gcT.strokeText("ROCK N' ROLLFARE", Math.round(canvasT.getWidth()  / 2), Math.round(canvasT.getHeight() / 6));
-		
-		System.out.println(gcT.getTextAlign());
 
 		start.setMaxWidth(Double.MAX_VALUE);
 		options.setMaxWidth(Double.MAX_VALUE);

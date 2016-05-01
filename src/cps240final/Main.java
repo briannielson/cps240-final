@@ -8,13 +8,21 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -29,6 +37,7 @@ public class Main extends Application {
 	public static ArrayList<MapObject> map = new ArrayList<MapObject>();
 	private long cycle = 0;
 	public static boolean fs = false;
+	public static int score = 0, lives = 3;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -67,6 +76,26 @@ public class Main extends Application {
 	    
 	    // Load in Map (Its a class but its actually just a way to store the map)
 		LevelOne levelOne = new LevelOne();
+		
+		//Load in score and lives
+		Font theFont = Font.font("Courier New", FontWeight.BOLD, 36);
+		Text stext = new Text();
+		stext.setFill(Color.WHITE);
+		stext.setStroke(Color.BLACK);
+		stext.setStrokeWidth(1.3);
+		stext.setFont(theFont);
+		stext.setText("Score:" + score);
+		stext.setY(stext.getLayoutBounds().getHeight());
+		Text ltext = new Text();
+		ltext.setFill(Color.WHITE);
+		ltext.setStroke(Color.BLACK);
+		ltext.setStrokeWidth(1.3);
+		ltext.setFont(theFont);
+		ltext.setText("Lives:" + p1.getNumLives());
+		System.out.println(stext.getLayoutBounds().getWidth());
+		ltext.setY(stext.getLayoutBounds().getHeight());
+		ltext.setX(windowSizeX - stext.getLayoutBounds().getWidth());
+		root.getChildren().addAll(stext, ltext);
 	    
 		// naming our class so we can call it later
 		AnimationTimer mainGameLoop = new AnimationTimer()
@@ -113,7 +142,8 @@ public class Main extends Application {
 		        		
 		        		if (e.getDeath()) {
 		        			iterator.remove();
-		        			System.out.println(".");
+		        			score = score + 10;
+		        			stext.setText("Score:" + score);
 		        			continue;
 		        		}
 		        		e.updatePosition();
