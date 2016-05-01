@@ -1,5 +1,6 @@
 package cps240final;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -45,7 +46,7 @@ public class TitleMenu {
 		gcT.setFont(theFont);
 		gcT.fillText("ROCK N' ROLLFARE", Math.round(canvasT.getWidth()  / 2), Math.round(canvasT.getHeight() / 6));
 		gcT.strokeText("ROCK N' ROLLFARE", Math.round(canvasT.getWidth()  / 2), Math.round(canvasT.getHeight() / 6));
-
+		
 		start.setMaxWidth(Double.MAX_VALUE);
 		options.setMaxWidth(Double.MAX_VALUE);
 		credits.setMaxWidth(Double.MAX_VALUE);
@@ -53,20 +54,16 @@ public class TitleMenu {
 		controls.setMaxWidth(Double.MAX_VALUE);
 		audio.setMaxWidth(Double.MAX_VALUE);
 		fullscreen.setMaxWidth(Double.MAX_VALUE);
-//		credBack.setMaxWidth(Double.MAX_VALUE);
-//		audBack.setMaxWidth(Double.MAX_VALUE);
-//		optBack.setMaxWidth(Double.MAX_VALUE);
-//		conBack.setMaxWidth(Double.MAX_VALUE);
 		
 		VBox butts = new VBox();
 		butts.setSpacing(10);
 		butts.setPadding(new Insets(0,20,10,20));
 		butts.getChildren().addAll(start, options, credits);
 		rootT.getChildren().add(butts);
+		System.out.println(butts.getAlignment());
+		butts.setAlignment(Pos.TOP_RIGHT);
 		butts.setLayoutY(130);
 		butts.setLayoutX(200);
-		//butts.setAlignment(Pos.CENTER);
-		//Title Menu Scene Stops here
 	}
 
 	public void optMethod() {
