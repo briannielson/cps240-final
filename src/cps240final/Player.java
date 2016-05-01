@@ -50,7 +50,7 @@ public class Player extends Sprite {
 				String code = e.getCode().toString();
 				if (code.equals(controls.get("ctrl_pause")))
 					Main.pauseState = Main.pauseState ? false : true;
-				System.out.println("Hi");
+				//System.out.println("Hi");
 				input.remove(code);
 			}
 		});

@@ -113,6 +113,7 @@ public class Main extends Application {
 		        		
 		        		if (e.getDeath()) {
 		        			iterator.remove();
+		        			System.out.println(".");
 		        			continue;
 		        		}
 		        		e.updatePosition();
