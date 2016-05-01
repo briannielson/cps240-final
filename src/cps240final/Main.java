@@ -101,7 +101,7 @@ public class Main extends Application {
 		        	
 		        	levelOne.weightedZSpawner();
 		        	
-		        	if (p1.getDeath() && p1.getNumLives() < 0) {
+		        	if (p1.getDeath() && p1.getNumLives() <= 0) {
 		        		this.stop();
 		        		mobs.clear();
 		        		map.clear();
