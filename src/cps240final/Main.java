@@ -89,7 +89,16 @@ public class Main extends Application {
 		ltext.setText(p1.getNumLives() + " Lives");
 		ltext.setY(stext.getLayoutBounds().getHeight());
 		ltext.setX(windowSizeX - stext.getLayoutBounds().getWidth());
-		root.getChildren().addAll(stext, ltext);
+		
+		Text htext = new Text(); //ltext = lives text
+		htext.setFill(Color.WHITE);
+		htext.setStroke(Color.BLACK);
+		htext.setStrokeWidth(1.3);
+		htext.setFont(theFont);
+		htext.setText(p1.getHealth() + " Health");
+		htext.setY(htext.getLayoutBounds().getHeight() + stext.getLayoutBounds().getHeight());
+		htext.setX(windowSizeX - htext.getLayoutBounds().getWidth());
+		root.getChildren().addAll(stext, ltext, htext);
 	    
 		// naming our class so we can call it later
 		AnimationTimer mainGameLoop = new AnimationTimer()
@@ -145,7 +154,7 @@ public class Main extends Application {
 		        	}
 		        	
 		        	ltext.setText(p1.getNumLives() + " Lives");
-		        	
+		        	htext.setText(p1.getHealth() + " Health");
 		        	cycle = currentNanoTime;
 	        	}
 	        }

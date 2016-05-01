@@ -1,6 +1,5 @@
 package cps240final;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -57,13 +56,12 @@ public class TitleMenu {
 		
 		VBox butts = new VBox();
 		butts.setSpacing(10);
-		butts.setPadding(new Insets(0,20,10,20));
+//		butts.setPadding(new Insets(0,20,10,20));
 		butts.getChildren().addAll(start, options, credits);
 		rootT.getChildren().add(butts);
-		System.out.println(butts.getAlignment());
-		butts.setAlignment(Pos.TOP_RIGHT);
+		System.out.println(butts.getLayoutBounds().getWidth());
 		butts.setLayoutY(130);
-		butts.setLayoutX(200);
+		butts.setLayoutX(215);
 	}
 
 	public void optMethod() {
@@ -184,6 +182,27 @@ public class TitleMenu {
 		backButt.setPadding(new Insets(20,20,20,20));
 		backButt.getChildren().addAll(credBack);
 		rootCred.getChildren().add(backButt);
+		
+		Text brian = new Text();
+		brian.setFill(Color.BLACK);
+		//brian.setStroke(Color.BLACK);
+		brian.setStrokeWidth(1.3);
+		Font theFont = Font.font("Times New Roman", FontWeight.BOLD, 36);
+		brian.setFont(theFont);
+		brian.setText("Brian Bauman");
+		brian.setY(130 + brian.getLayoutBounds().getHeight());
+		brian.setX((512 - brian.getLayoutBounds().getWidth()) / 2);
+		
+		Text michael = new Text();
+		michael.setFill(Color.BLACK);
+		//michael.setStroke(Color.BLACK);
+		michael.setStrokeWidth(1.3);
+		michael.setFont(theFont);
+		michael.setText("Michael Ostrander");
+		michael.setY(130 + (michael.getLayoutBounds().getHeight() * 2));
+		michael.setX((512 - michael.getLayoutBounds().getWidth()) / 2);
+		
+		rootCred.getChildren().addAll(brian, michael);
 		
 	}
 
