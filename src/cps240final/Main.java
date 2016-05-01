@@ -86,8 +86,7 @@ public class Main extends Application {
 		ltext.setStroke(Color.BLACK);
 		ltext.setStrokeWidth(1.3);
 		ltext.setFont(theFont);
-		ltext.setText("Lives:" + p1.getNumLives());
-		System.out.println(stext.getLayoutBounds().getWidth());
+		ltext.setText(p1.getNumLives() + " Lives");
 		ltext.setY(stext.getLayoutBounds().getHeight());
 		ltext.setX(windowSizeX - stext.getLayoutBounds().getWidth());
 		root.getChildren().addAll(stext, ltext);
@@ -145,7 +144,7 @@ public class Main extends Application {
 		        		e.render(gc);
 		        	}
 		        	
-		        	ltext.setText("Lives:" + p1.getNumLives());
+		        	ltext.setText(p1.getNumLives() + " Lives");
 		        	
 		        	cycle = currentNanoTime;
 	        	}
