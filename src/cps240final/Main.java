@@ -151,6 +151,8 @@ public class Main extends Application {
 		        		e.render(gc);
 		        	}
 		        	
+		        	ltext.setText("Lives:" + p1.getNumLives());
+		        	
 		        	cycle = currentNanoTime;
 	        	}
 	        }
