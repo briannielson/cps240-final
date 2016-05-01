@@ -79,14 +79,15 @@ public class Main extends Application {
 		
 		//Load in score and lives
 		Font theFont = Font.font("Courier New", FontWeight.BOLD, 36);
-		Text stext = new Text();
+		Text stext = new Text(); //stext = score text
 		stext.setFill(Color.WHITE);
 		stext.setStroke(Color.BLACK);
 		stext.setStrokeWidth(1.3);
 		stext.setFont(theFont);
 		stext.setText("Score:" + score);
 		stext.setY(stext.getLayoutBounds().getHeight());
-		Text ltext = new Text();
+		
+		Text ltext = new Text(); //ltext = lives text
 		ltext.setFill(Color.WHITE);
 		ltext.setStroke(Color.BLACK);
 		ltext.setStrokeWidth(1.3);
