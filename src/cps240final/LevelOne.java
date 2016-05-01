@@ -74,7 +74,7 @@ public class LevelOne {
 	
 	public void weightedZSpawner () {
 		int i,x,y;
-		if (randoCalrisian.nextInt(10) > threshhold && !Main.pauseState) {
+		if (randoCalrisian.nextInt(10) > threshhold) {
 			i = randoCalrisian.nextInt(4);
 			x = zSpawnPoints.get(i)[0];
 			y = zSpawnPoints.get(i)[1];

@@ -193,8 +193,6 @@ public class Player extends Sprite {
 	
 	@Override
 	public void update(double x, double y) {
-		if (Main.pauseState)
-			return;
 		
 		// check for intersection to outside of window AND for map objects
 		positionX += x;
