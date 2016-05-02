@@ -133,7 +133,7 @@ public class Main extends Application {
 		ptext.setStrokeWidth(1.3);
 		ptext.setFont(pFont);
 		ptext.setText("Paused");
-		ptext.setY(windowSizeY / 2 - ptext.getLayoutBounds().getHeight() / 2);
+		ptext.setY(windowSizeY / 2 - ptext.getLayoutBounds().getHeight() - 30);
 		ptext.setX(windowSizeX / 2 - ptext.getLayoutBounds().getWidth() / 2);
 		
 		root.getChildren().addAll(stext, ltext, htext, lvtext);
@@ -229,6 +229,7 @@ public class Main extends Application {
 	        	} else if (!pauseText && pauseState) {
 	        		root.getChildren().add(ptext);
 	        		pauseText = true;
+	        		gc.drawImage(new Image("/cps240final/sprites/controls.png"), 0, 0);
 	        	}
 	        }
 	    };

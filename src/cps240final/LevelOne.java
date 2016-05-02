@@ -56,7 +56,7 @@ public class LevelOne {
 		// Set spawn points for zombie spawner
 		zSpawnPoints.add(new Integer[2]);
 		zSpawnPoints.get(zSpawnPoints.size() - 1)[0] = 0;
-		zSpawnPoints.get(zSpawnPoints.size() - 1)[1] = 230;
+		zSpawnPoints.get(zSpawnPoints.size() - 1)[1] = 290;
 		zSpawnPoints.add(new Integer[2]);
 		zSpawnPoints.get(zSpawnPoints.size() - 1)[0] = 0;
 		zSpawnPoints.get(zSpawnPoints.size() - 1)[1] = 0;

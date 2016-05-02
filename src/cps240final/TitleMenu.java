@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -135,6 +136,8 @@ public class TitleMenu {
 		backButt.setPadding(new Insets(20,20,20,20));
 		backButt.getChildren().addAll(conBack);
 		rootCon.getChildren().add(backButt);
+		
+		gcCon.drawImage(new Image("/cps240final/sprites/controls.png"), 0, 0);
 	}
 	
 	public void audMethod() {
