@@ -1,3 +1,17 @@
+/*
+ * @author: Brian Bauman and Michael Ostrander
+ * 
+ * SpriteAnimation
+ * 
+ * Alternative to drawing Images on our GraphicsContext.
+ * Uses ImageView to change the current position displayed of an
+ * image from a sheet (usually sprite sheet) to produce the
+ * illusion of movement from still images.
+ * 
+ * Modified and taken from:
+ * http://blog.netopyr.com/2012/03/09/creating-a-sprite-animation-with-javafx/
+ */
+
 package cps240final;
 
 import javafx.animation.Interpolator;
@@ -17,7 +31,7 @@ public class SpriteAnimation extends Transition {
     private final int height;
 
     private int lastIndex;
-
+    
     public SpriteAnimation(
             ImageView imageView, 
             Duration duration, 

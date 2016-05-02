@@ -1,3 +1,16 @@
+/*
+ * @author: Brian Bauman
+ * 
+ * Bullet
+ * 
+ * This class holds everything about projectiles. If enemies later
+ * get weapons to shoot, they should implement an updateProjectile() method
+ * and set their weapon info here.
+ * 
+ * This class is supposed to be initialized and updated by the Player
+ * or the Enemy. Ownership is required so we do not dereference ourselves...
+ */
+
 package cps240final;
 
 import javafx.scene.image.Image;
@@ -7,8 +20,8 @@ public class Bullet extends Sprite {
 	private double velocityX, velocityY;
 
 	public Bullet(double startX, double startY, int direction) {
-		setImage(new Image( "/cps240final/sprites/bennyhill.jpg" ));
-		setPosition(startX, startY);
+		setImage(new Image( "/cps240final/sprites/bullet.png" ));
+		setPosition(startX + Main.p1.getWidth() / 2, startY + Main.p1.getHeight() / 2);
 		velocity = 20;
 		switch (direction) {
 		case 0:

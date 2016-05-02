@@ -1,3 +1,13 @@
+/*
+ * @author: Brian Bauman and Michael Ostrander
+ * 
+ * MapObject
+ * 
+ * Class built to hold any object on the map not meant to move, but
+ * can have an expiration timer (Walls, player buffs, enemy buffs)
+ * Currently only used to make walls (currently invisible walls)
+ */
+
 package cps240final;
 
 import java.util.ArrayList;
@@ -14,9 +24,10 @@ public class MapObject extends Sprite {
 	private boolean expire;
 	private int lifeTimer;
 	private boolean isShape;
+	private boolean visible;
 
 	public MapObject(double x1, double y1, boolean obs, ArrayList<Effects> b, boolean use, boolean expiring,
-			int timer, boolean shape) {
+			int timer, boolean shape, boolean visibility) {
 		positionX = x1;
 		positionY = y1;
 		obstacle = obs;
@@ -25,6 +36,7 @@ public class MapObject extends Sprite {
 		expire = expiring;
 		lifeTimer = timer;
 		isShape = shape;
+		visible = visibility;
 	}
 
 	public void setShapeAttr(double x1, double y1, double x2, double y2, Color c) {
@@ -52,6 +64,8 @@ public class MapObject extends Sprite {
 
 	@Override
 	public void render(GraphicsContext gc) {
+		if (!visible)
+			return;
 		if (isShape)
 			renderShape(gc);
 		else

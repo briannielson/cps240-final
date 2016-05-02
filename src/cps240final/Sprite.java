@@ -1,11 +1,22 @@
+/*
+ * @author: Brian Bauman and Michael Ostrander
+ * 
+ * Sprite
+ * 
+ * Parent class for Enemy, Player, Bullet, and MapObject
+ * This class is how we implement unit detection as well as
+ * rendering onto the GraphicsContext
+ */
+
 package cps240final;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.transform.Rotate;
 
 abstract class Sprite {
-	private Image image;
+	protected Image image;
 	protected double positionX;
 	protected double positionY;
 	protected int rotation;
@@ -18,12 +29,17 @@ abstract class Sprite {
 	public Sprite() {
 		positionX = 0;
 		positionY = 0;
+		rotation = 90;
 	}
 
 	public void setImage(Image i) {
 		image = i;
 		width = i.getWidth();
 		height = i.getHeight();
+	}
+	
+	public void setRotation(int theta) {
+		rotation = theta;
 	}
 
 	public void setImage(String filename) {
@@ -53,7 +69,7 @@ abstract class Sprite {
 	}
 
 	public void render(GraphicsContext gc) {
-		gc.drawImage(image, positionX, positionY);
+		drawRotatedImage(gc);
 	}
 
 	public Rectangle2D getBoundary() {
@@ -79,4 +95,16 @@ abstract class Sprite {
 	public void setHealth(int x) {
 		health = x;
 	}
+	
+	protected void rotate(GraphicsContext gc, double px, double py) {
+		Rotate r = new Rotate(rotation, px, py);
+		gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+	}
+	
+	protected void drawRotatedImage(GraphicsContext gc) {
+        gc.save(); // saves the current state on stack, including the current transform
+        rotate(gc, positionX + width / 2, positionY + height / 2);
+        gc.drawImage(image, positionX, positionY);
+        gc.restore(); // back to original state (before rotation)
+    }
 }

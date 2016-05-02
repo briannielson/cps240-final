@@ -1,3 +1,13 @@
+/*
+ * @author: Brian Bauman and Michael Ostrander
+ * 
+ * Player
+ * 
+ * The protagonist lives here. The player handles spawning projectiles,
+ * input, movement speed, and how fast they can shoot. Also, Player is
+ * the only Sprite with the unDeath() method (Who is the real zombie???)
+ */
+
 package cps240final;
 
 import java.io.File;
@@ -9,7 +19,6 @@ import java.util.Scanner;
 
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 
@@ -17,14 +26,14 @@ public class Player extends Sprite {
 	private ArrayList<String> input;
 	private HashMap<String, String> controls = new HashMap<String, String>();
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
-	private int gunCooldown = 5;
+	private int gunCooldown = 10;
 	private int currentGunCd = 0;
 	private int numLives;
 	private int invincFrames;
 	//private ArrayList<String> currentEffects = new ArrayList<String>();
 
 	public Player() {
-		setImage(new Image("/cps240final/sprites/bennyhill.jpg"));
+		setImage(new Image("/cps240final/sprites/survivor-idle_handgun.png"));
 		setupInputDefaults();
 		velocity = 2;
 		
@@ -54,6 +63,10 @@ public class Player extends Sprite {
 				input.remove(code);
 			}
 		});
+	}
+	
+	public void improveGun() {
+		gunCooldown--;
 	}
 
 	public double getPosX() {
@@ -94,42 +107,50 @@ public class Player extends Sprite {
 			if (input.contains(controls.get("ctrl_shoot_left")) && input.contains(controls.get("ctrl_shoot_up"))) {
 				bullets.add(new Bullet(positionX, positionY, 7));
 				currentGunCd = gunCooldown;
+				rotation = 225;
 			} else if (input.contains(controls.get("ctrl_shoot_left"))
 					&& input.contains(controls.get("ctrl_shoot_down"))) {
 				bullets.add(new Bullet(positionX, positionY, 5));
 				currentGunCd = gunCooldown;
+				rotation = 135;
 			}
 
 			else if (input.contains(controls.get("ctrl_shoot_right"))
 					&& input.contains(controls.get("ctrl_shoot_up"))) {
 				bullets.add(new Bullet(positionX, positionY, 1));
 				currentGunCd = gunCooldown;
+				rotation = 315;
 			}
 
 			else if (input.contains(controls.get("ctrl_shoot_right"))
 					&& input.contains(controls.get("ctrl_shoot_down"))) {
 				bullets.add(new Bullet(positionX, positionY, 3));
 				currentGunCd = gunCooldown;
+				rotation = 45;
 			}
 
 			else if (input.contains(controls.get("ctrl_shoot_left"))) {
 				bullets.add(new Bullet(positionX, positionY, 6));
 				currentGunCd = gunCooldown;
+				rotation = 180;
 			}
 
 			else if (input.contains(controls.get("ctrl_shoot_up"))) {
 				bullets.add(new Bullet(positionX, positionY, 0));
 				currentGunCd = gunCooldown;
+				rotation = 270;
 			}
 
 			else if (input.contains(controls.get("ctrl_shoot_right"))) {
 				bullets.add(new Bullet(positionX, positionY, 2));
 				currentGunCd = gunCooldown;
+				rotation = 0;
 			}
 
 			else if (input.contains(controls.get("ctrl_shoot_down"))) {
 				bullets.add(new Bullet(positionX, positionY, 4));
 				currentGunCd = gunCooldown;
+				rotation = 90;
 			}
 		} else {
 			currentGunCd--;
@@ -205,9 +226,9 @@ public class Player extends Sprite {
 				}
 			}
 		else if (positionX < Main.windowSizeX - getWidth())
-			positionX = Main.windowSizeX - getWidth();
-		else
 			positionX = 0;
+		else
+			positionX = Main.windowSizeX - getWidth();
 		
 		positionY += y;
 		if (positionY < Main.windowSizeY - getHeight() && positionY > 0)
@@ -220,9 +241,9 @@ public class Player extends Sprite {
 				}
 			}
 		else if (positionY < Main.windowSizeY - getHeight())
-			positionY = Main.windowSizeY - getHeight();
-		else
 			positionY = 0;
+		else
+			positionY = Main.windowSizeY - getHeight();
 	}
 	
 	public void hit(int healthLost) {

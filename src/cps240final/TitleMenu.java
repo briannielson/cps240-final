@@ -1,3 +1,12 @@
+/*
+ * @author: Brian Bauman and Michael Ostrander
+ * 
+ * TitleMenu
+ * 
+ * Every element can be found here for the title menu. This is more of a convenience class
+ * that we pass the currentScene to and modify what is visible and placed on the Scene.
+ */
+
 package cps240final;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -59,7 +68,7 @@ public class TitleMenu {
 //		butts.setPadding(new Insets(0,20,10,20));
 		butts.getChildren().addAll(start, options, credits);
 		rootT.getChildren().add(butts);
-		System.out.println(butts.getLayoutBounds().getWidth());
+		//System.out.println(butts.getLayoutBounds().getWidth());
 		butts.setLayoutY(130);
 		butts.setLayoutX(215);
 	}

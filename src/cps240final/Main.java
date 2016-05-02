@@ -1,9 +1,23 @@
+/*
+ * @author: Brian Bauman and Michael Ostrander
+ * 
+ * Main
+ * 
+ * Where the magic happens. Static variables are setup, Scene and canvases are setup,
+ * and 100 lines of event handlers are listening. In our main game loop:
+ * -- Check level status
+ * -- Spawn Zombies
+ * -- Check Player status
+ * -- Update and render player, zombies, and projectiles
+ * -- update score, health, and lives
+ * Everything else is typical JavaFX custodial work.
+ */
+
 package cps240final;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -13,6 +27,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -26,12 +41,13 @@ public class Main extends Application {
 	public static double windowSizeX;
 	public static double windowSizeY;
 	public static boolean pauseState = false;
+	public static boolean pauseText = false;
 	public static Player p1;
 	public static ArrayList<Enemy> mobs = new ArrayList<Enemy>();
 	public static ArrayList<MapObject> map = new ArrayList<MapObject>();
 	private long cycle = 0;
 	public static boolean fs = false;
-	public static int score = 0, lives = 3;
+	public static int score = 0, lives = 3, levelFlag = 0;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -54,6 +70,8 @@ public class Main extends Application {
 	    Group root = new Group();
 	    Scene theScene = new Scene( root );
 	    
+	    Image myBI= new Image("/cps240final/sprites/map1.png");
+	    
 	    TitleMenu tm = new TitleMenu();
 		
 	    currentScene = theScene; // currentScene is used across other classes so that we know what to paint to...
@@ -72,7 +90,7 @@ public class Main extends Application {
 		LevelOne levelOne = new LevelOne();
 		
 		//Load in score and lives
-		Font theFont = Font.font("Courier New", FontWeight.BOLD, 36);
+		Font theFont = Font.font("Courier New", FontWeight.BOLD, 24);
 		Text stext = new Text(); //stext = score text
 		stext.setFill(Color.WHITE);
 		stext.setStroke(Color.BLACK);
@@ -90,7 +108,7 @@ public class Main extends Application {
 		ltext.setY(stext.getLayoutBounds().getHeight());
 		ltext.setX(windowSizeX - stext.getLayoutBounds().getWidth());
 		
-		Text htext = new Text(); //ltext = lives text
+		Text htext = new Text(); //htext = health text
 		htext.setFill(Color.WHITE);
 		htext.setStroke(Color.BLACK);
 		htext.setStrokeWidth(1.3);
@@ -98,7 +116,27 @@ public class Main extends Application {
 		htext.setText(p1.getHealth() + " Health");
 		htext.setY(htext.getLayoutBounds().getHeight() + stext.getLayoutBounds().getHeight());
 		htext.setX(windowSizeX - htext.getLayoutBounds().getWidth());
-		root.getChildren().addAll(stext, ltext, htext);
+		
+		Text lvtext = new Text(); //lvtext = level text
+		lvtext.setFill(Color.WHITE);
+		lvtext.setStroke(Color.BLACK);
+		lvtext.setStrokeWidth(1.3);
+		lvtext.setFont(theFont);
+		lvtext.setText("Level " + levelFlag);
+		lvtext.setY(htext.getLayoutBounds().getHeight() + stext.getLayoutBounds().getHeight() + lvtext.getLayoutBounds().getHeight());
+		lvtext.setX(windowSizeX - htext.getLayoutBounds().getWidth());
+		
+		Text ptext = new Text(); //ptext = paused text
+		Font pFont = Font.font("Courier New", FontWeight.BOLD, 36);
+		ptext.setFill(Color.WHITE);
+		ptext.setStroke(Color.BLACK);
+		ptext.setStrokeWidth(1.3);
+		ptext.setFont(pFont);
+		ptext.setText("Paused");
+		ptext.setY(windowSizeY / 2 - ptext.getLayoutBounds().getHeight() / 2);
+		ptext.setX(windowSizeX / 2 - ptext.getLayoutBounds().getWidth() / 2);
+		
+		root.getChildren().addAll(stext, ltext, htext, lvtext);
 	    
 		// naming our class so we can call it later
 		AnimationTimer mainGameLoop = new AnimationTimer()
@@ -106,7 +144,38 @@ public class Main extends Application {
 	        public void handle(long currentNanoTime) // main timer for game
 	        {
 	        	if (currentNanoTime - cycle >= 3000 && !pauseState) {
+	        		if (pauseText) {
+	        			root.getChildren().remove(ptext);
+	        			pauseText = false;
+	        		}
 		        	gc.clearRect(0, 0, 512,512);
+		        	
+		        	// levels
+		        	if (levelFlag == 0 && score >= 100) {
+		        		levelOne.incrementThreshhold();
+		        		levelFlag = 1;
+		        		p1.improveGun();
+		        	}
+		        	else if (levelFlag == 1 && score >= 500) {
+		        		levelOne.incrementThreshhold();
+		        		levelFlag = 2;
+		        		p1.improveGun();
+		        	} else if (levelFlag == 2 && score >= 2000) {
+		        		levelOne.incrementThreshhold();
+		        		levelFlag = 3;
+		        		p1.improveGun();
+		        	} else if (levelFlag == 3 && score >= 5000) {
+		        		levelOne.incrementThreshhold();
+		        		levelFlag = 4;
+		        		p1.improveGun();
+		        	} else if (levelFlag == 4 && score >= 10000) {
+		        		levelOne.incrementThreshhold();
+		        		levelFlag = 5;
+		        		p1.improveGun();
+		        	}
+		        	
+		        	
+		        	gc.drawImage(myBI, 0, 0);
 		        	
 		        	levelOne.weightedZSpawner();
 		        	
@@ -155,7 +224,11 @@ public class Main extends Application {
 		        	
 		        	ltext.setText(p1.getNumLives() + " Lives");
 		        	htext.setText(p1.getHealth() + " Health");
+		        	lvtext.setText("Level " + levelFlag);
 		        	cycle = currentNanoTime;
+	        	} else if (!pauseText && pauseState) {
+	        		root.getChildren().add(ptext);
+	        		pauseText = true;
 	        	}
 	        }
 	    };
